@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>background/Addmenuwindow.png</file>
+        <file>background/Addstaffwindow.png</file>
+        <file>background/Dineinnwindow.png</file>
+        <file>background/Mainwindow.png</file>
+        <file>background/Menuwindow.png</file>
+        <file>background/ordertrakingwindow.png</file>
+        <file>background/Removemenuwindow.png</file>
+        <file>background/removestaffwindow.png</file>
+        <file>background/showmenuwindow.png</file>
+        <file>background/showOrderwindow.png</file>
+        <file>background/Showstaffwindow.png</file>
+        <file>background/StaffWindow.png</file>
+        <file>background/Takawaywindow.png</file>
+        <file>background/user1window.png</file>
+        <file>background/user2window.png</file>
+        <file>background/user3window.png</file>
+        <file>background/user4window.png</file>
+        <file>background/TableWindow.png</file>
+        <file>background/Updatemenuwindow.png</file>
+        <file>background/Updatestaffwindow.png</file>
+    </qresource>
+</RCC>

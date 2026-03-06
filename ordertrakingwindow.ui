@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ordertrakingwindow</class>
+ <widget class="QWidget" name="ordertrakingwindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>340</y>
+     <width>521</width>
+     <height>371</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_orderNo">
+   <property name="geometry">
+    <rect>
+     <x>1260</x>
+     <y>57</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Rounded MT Bold</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:white; color:#000000;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Order No</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>1283</x>
+     <y>162</y>
+     <width>117</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#pushButton {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#pushButton:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#pushButton:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>60</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#pushButton_2 {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#pushButton_2:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#pushButton_2:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="frontend">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>900</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    background-image: url(:/new/prefix1/background/ordertrakingwindow.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>frontend</zorder>
+  <zorder>tableWidget</zorder>
+  <zorder>comboBox_orderNo</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>pushButton_2</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

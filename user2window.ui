@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>User2Window</class>
+ <widget class="QWidget" name="User2Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Order</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#ffffff;</string>
+  </property>
+  <widget class="QPushButton" name="DinninButton">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>380</y>
+     <width>91</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Black</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#DinninButton {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#DinninButton:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#DinninButton:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="TakeawayButton">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>380</y>
+     <width>101</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Black</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#TakeawayButton {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#TakeawayButton:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#TakeawayButton:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LogOut">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>50</y>
+     <width>121</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#LogOut {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#LogOut:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#LogOut:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="frontend">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>900</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    background-image: url(:/new/prefix1/background/user2window.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>380</y>
+     <width>91</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#pushButton {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#pushButton:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#pushButton:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>frontend</zorder>
+  <zorder>DinninButton</zorder>
+  <zorder>TakeawayButton</zorder>
+  <zorder>LogOut</zorder>
+  <zorder>pushButton</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

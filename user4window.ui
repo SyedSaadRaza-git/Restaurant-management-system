@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>user4window</class>
+ <widget class="QWidget" name="user4window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="LogOut">
+   <property name="geometry">
+    <rect>
+     <x>94</x>
+     <y>60</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#LogOut {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#LogOut:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#LogOut:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>340</y>
+     <width>581</width>
+     <height>401</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_InProgress">
+   <property name="geometry">
+    <rect>
+     <x>169</x>
+     <y>152</y>
+     <width>31</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_Ready">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>172</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_orderNo">
+   <property name="geometry">
+    <rect>
+     <x>1260</x>
+     <y>56</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial Rounded MT Bold</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:white; color:#000000;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Select Order</string>
+   </property>
+   <property name="frame">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_ok">
+   <property name="geometry">
+    <rect>
+     <x>1284</x>
+     <y>164</y>
+     <width>117</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#btn_ok {
+    background-color: transparent; /* Fully transparent background */
+    border: none; /* No visible border */
+    border-radius: 50%; /* Circular button */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+}
+
+#btn_ok:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Slight red tint on hover */
+}
+
+#btn_ok:pressed {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly brighter red tint on click */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="frontend">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>900</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    background-image: url(:/new/prefix1/background/user4window.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>frontend</zorder>
+  <zorder>LogOut</zorder>
+  <zorder>tableWidget</zorder>
+  <zorder>radioButton_InProgress</zorder>
+  <zorder>radioButton_Ready</zorder>
+  <zorder>comboBox_orderNo</zorder>
+  <zorder>btn_ok</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

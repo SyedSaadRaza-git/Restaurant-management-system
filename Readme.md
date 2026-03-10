@@ -56,3 +56,8 @@ Client-Server architecture where multiple client computers connect to a centrali
 1. Install **Qt Creator**
 2. Install **MySQL Server**
 3. Import database file
+
+## 🎥 Demo Video
+
+Watch the demo here:
+https://youtu.be/djI3HR1VczA

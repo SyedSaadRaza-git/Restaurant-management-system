@@ -62,6 +62,13 @@ void user4window::on_LogOut_clicked()
 }
 
 void user4window::loadOrders(){
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     if (!query.exec(
             "SELECT order_no FROM orders "
@@ -91,6 +98,7 @@ void user4window::on_btn_ok_clicked()
         return;
     }
 
+
     QString status;
     if (ui->radioButton_InProgress->isChecked()) {
         status = "In Progress";
@@ -101,6 +109,13 @@ void user4window::on_btn_ok_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     if(status == "Ready")
     {
@@ -134,6 +149,13 @@ void user4window::populateTableWidget()
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Define and execute the query
     QSqlQuery query(db);
     if (!query.exec(

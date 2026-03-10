@@ -42,6 +42,14 @@ void removestaffwindow::on_RemoveButton_clicked()
     }
 
     // Prepare the DELETE SQL query to remove the staff by ID
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("DELETE FROM staff WHERE id = :staffId");
     query.bindValue(":staffId", staffId);  // Bind the staff ID from the input

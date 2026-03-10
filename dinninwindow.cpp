@@ -14,6 +14,7 @@
 #include <QPageLayout>
 #include <QPageSize>
 #include <QTimer>
+#include <QFile>
 
 //headers for database connection
 
@@ -104,59 +105,66 @@ void dinninwindow::calculateTotalPrice()
 
 void dinninwindow::loadCategoryMenu(const QString &category)
 {
-    if (!db.isOpen()) {
-        QMessageBox::warning(this, "Database Error", "Database is not connected.");
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
         return;
     }
+
+    db = QSqlDatabase::database("restaurant_connection");
 
     QSqlQuery query(db);
     query.prepare("SELECT Name, selling_price, image_path FROM menu WHERE category = :category");
     query.bindValue(":category", category);
 
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Query Error", query.lastError().text());
+    if(!query.exec())
+    {
+        QMessageBox::critical(this,"Query Error",query.lastError().text());
         return;
     }
 
-    // Clear the list widget for the new category
     ui->listWidget->clear();
 
-    // Set the view mode to IconMode for a grid-like layout
     ui->listWidget->setViewMode(QListWidget::IconMode);
-    ui->listWidget->setIconSize(QSize(100, 100)); // Adjust size for the icons
-    ui->listWidget->setSpacing(10);              // Adjust spacing between items
-    ui->listWidget->setResizeMode(QListWidget::Adjust);
+    ui->listWidget->setIconSize(QSize(100,100));
+    ui->listWidget->setGridSize(QSize(150,150));
+    ui->listWidget->setSpacing(10);
 
-    while (query.next()) {
+    while(query.next())
+    {
         QString itemName = query.value(0).toString();
         double price = query.value(1).toDouble();
         QString imagePath = query.value(2).toString();
 
-        // Create the list widget item
-        QListWidgetItem *listItem = new QListWidgetItem();
+        // Clean the path
+        imagePath = imagePath.trimmed();
+        imagePath.replace("\\","/");
 
+        qDebug() << "Checking image:" << imagePath;
+
+        QListWidgetItem *listItem = new QListWidgetItem();
         listItem->setText(itemName);
         listItem->setData(Qt::UserRole, price);
 
-        // Load and set the icon (image) for the item
-        if (!imagePath.isEmpty() && QFile::exists(imagePath)) {
-            QIcon itemIcon(imagePath);
-            listItem->setIcon(itemIcon);
-        } else {
-            // Set a default icon if the image path is invalid
-            listItem->setIcon(QIcon(":/resources/default.png")); // Replace with your default icon
+        if(QFile::exists(imagePath))
+        {
+            listItem->setIcon(QIcon(imagePath));
+            qDebug() << "Image loaded successfully";
+        }
+        else
+        {
+            qDebug() << "Image NOT found, using default";
+            listItem->setIcon(QIcon(":/resources/default.png"));
         }
 
-        // Store the price as data
-        listItem->setData(Qt::UserRole, price);
-
-        // Add the item to the list widget
         ui->listWidget->addItem(listItem);
     }
 
-    // Connect the item click event to add the item to the order
-    disconnect(ui->listWidget, &QListWidget::itemClicked, this, &dinninwindow::addItemToOrder);
-    connect(ui->listWidget, &QListWidget::itemClicked, this, &dinninwindow::addItemToOrder);
+    disconnect(ui->listWidget, &QListWidget::itemClicked,
+               this, &dinninwindow::addItemToOrder);
+
+    connect(ui->listWidget, &QListWidget::itemClicked,
+            this, &dinninwindow::addItemToOrder);
 }
 void dinninwindow::addItemToOrder(QListWidgetItem *item)
 {
@@ -263,6 +271,14 @@ void dinninwindow::on_GetBillButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
+
     // Fetch unpaid order for this table
     QSqlQuery orderQuery(db);
     orderQuery.prepare("SELECT order_no, total_price, order_type FROM orders "
@@ -278,6 +294,14 @@ void dinninwindow::on_GetBillButton_clicked()
     double totalPrice = orderQuery.value("total_price").toDouble();
     QString orderType = orderQuery.value("order_type").toString();
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
+
     // Fetch items
     QSqlQuery itemQuery(db);
     itemQuery.prepare("SELECT item_name, quantity, unit_price, total_price FROM order_items "
@@ -292,10 +316,7 @@ void dinninwindow::on_GetBillButton_clicked()
     QString billText;
     billText += QString("Order No: %1\nTable: %2\nOrder Type: %3\n\n").arg(orderNumber).arg(tableNo).arg(orderType);
     billText += QString("%1\t%2\t%3\t%4\n")
-                    .arg("Item")
-                    .arg("Qty")
-                    .arg("Unit")
-                    .arg("Total");
+                    .arg("Item", "Qty", "Unit", "Total");
     billText += "----------------------------------------\n";
 
     while (itemQuery.next()) {
@@ -344,12 +365,21 @@ void dinninwindow::on_GetBillButton_clicked()
 // Slot for marking orders as paid
 void dinninwindow::markOrderAsPaid()
 {
+
     QString tableNo = ui->comboBox->currentText();
 
     if(tableNo.isEmpty()){
         QMessageBox::warning(this,"Invalid","Select a table first");
         return;
     }
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
 
     QSqlQuery query(db);
     query.prepare("UPDATE orders SET is_paid = 1 WHERE table_no = :tableNo AND is_paid = 0");
@@ -369,6 +399,14 @@ void dinninwindow::populateTablesComboBox()
     if (!db.isOpen()) return;
 
     ui->comboBox->clear();
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
 
     QSqlQuery query(db);
     query.prepare("SELECT table_no FROM restaurant_tables ORDER BY table_no");
@@ -391,6 +429,14 @@ void dinninwindow::onTableSelected(const QString &tableNo)
     ui->tableWidget->setRowCount(0);
 
     if (tableNo.isEmpty()) return;
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
 
     QSqlQuery query(db);
     query.prepare(
@@ -435,6 +481,14 @@ void dinninwindow::BillGenerated()
                              "Please select a table first.");
         return;
     }
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
 
     QSqlQuery query(db);
     query.prepare(
@@ -486,6 +540,14 @@ void dinninwindow::BillGenerated()
 
     if (reply == QMessageBox::Yes) {
 
+        //Function for reconnect database
+        if(!reconnectDatabase())
+        {
+            QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+            return;
+        }
+        db = QSqlDatabase::database("restaurant_connection");
+
         QSqlQuery update(db);
         update.prepare("UPDATE orders SET is_paid = 1, payment_status='paid' "
                        "WHERE order_no = :orderNo");
@@ -519,6 +581,14 @@ void dinninwindow::populateCategoryButtons()
         delete item->widget();
         delete item;
     }
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
 
     // Execute query to get categories
     QSqlQuery query(db);
@@ -650,9 +720,6 @@ void dinninwindow::markAsPaid()
 
 void dinninwindow::on_PlaceOrderButton_clicked()
 {
-        //QString tableNo = ui->comboBox->currentText();
-
-
 
         if (ui->tableWidget->rowCount() == 0) {
             QMessageBox::warning(this, "Empty Order", "No items to place order.");
@@ -664,6 +731,8 @@ void dinninwindow::on_PlaceOrderButton_clicked()
             return;
         }
 
+
+
         QString currentDate = QDate::currentDate().toString("yyyy-MM-dd");
         QString tableNo = ui->comboBox->currentText();
         if (tableNo.isEmpty() || tableNo == "Select Table") {
@@ -671,6 +740,14 @@ void dinninwindow::on_PlaceOrderButton_clicked()
                                  "Please select a table before placing the order.");
             return;
         }
+
+        //Function for reconnect database
+        if(!reconnectDatabase())
+        {
+            QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+            return;
+        }
+        db = QSqlDatabase::database("restaurant_connection");
 
         // Save order as unpaid & dine-in
         QSqlQuery insertOrderQuery(db);
@@ -706,6 +783,14 @@ void dinninwindow::on_PlaceOrderButton_clicked()
             double unitPrice = ui->tableWidget->item(row, 2)->text().toDouble();
             double totalPrice = ui->tableWidget->item(row, 3)->text().toDouble();
 
+            //Function for reconnect database
+            if(!reconnectDatabase())
+            {
+                QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+                return;
+            }
+            db = QSqlDatabase::database("restaurant_connection");
+
             QSqlQuery insertItemQuery(db);
             insertItemQuery.prepare(
                 "INSERT INTO order_items (order_no, item_name, quantity, unit_price, total_price) "
@@ -730,6 +815,14 @@ void dinninwindow::checkForReadyOrders(){
     if (!db.isOpen())
         return;
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
+
     QSqlQuery query(db);
     query.prepare("SELECT order_no FROM orders WHERE status='Ready' AND notification_shown = 0");
 
@@ -744,6 +837,14 @@ void dinninwindow::checkForReadyOrders(){
 
         QMessageBox::information(this,"Order Ready",
                                  "Order " + orderNo + " is ready!");
+
+        //Function for reconnect database
+        if(!reconnectDatabase())
+        {
+            QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+            return;
+        }
+        db = QSqlDatabase::database("restaurant_connection");
 
         QSqlQuery updateQuery(db);
         updateQuery.prepare("UPDATE orders SET notification_shown = 1 WHERE order_no = :order_no");

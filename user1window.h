@@ -28,6 +28,8 @@ private slots:
 
     void on_TableButton_clicked();
 
+    void on_restoreButton_clicked();
+
 private:
     Ui::User1Window *ui;
     staffwindow*StaffWindow;

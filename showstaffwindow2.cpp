@@ -59,6 +59,14 @@ void showstaffwindow2::on_searchButton_clicked()
         QMessageBox::critical(this, "Database Error", "Database not connected");
         return;
     }
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Prepare the SQL query to fetch staff details based on ID
     QSqlQuery query(db);
     query.prepare("SELECT Name, Cnic, Phone_No, Position, Salary FROM Staff WHERE id = :staffId");
@@ -127,6 +135,13 @@ void showstaffwindow2::on_showAllButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("SELECT id, name, cnic, phone_no, position, salary FROM Staff");
 

@@ -5,5 +5,6 @@
 #include <QSqlDatabase>
 
 bool connectToDatabase();
+bool reconnectDatabase();
 
 #endif // DATABASECONNECTION_H

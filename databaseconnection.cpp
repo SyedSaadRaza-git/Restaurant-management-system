@@ -31,3 +31,19 @@ bool connectToDatabase()
     return true;
 }
 
+bool reconnectDatabase()
+{
+    QSqlDatabase db = QSqlDatabase::database("restaurant_connection");
+
+    if (db.isOpen())
+        return true;
+
+    if (!db.open())
+    {
+        qDebug() << "Database reconnect failed:" << db.lastError().text();
+        return false;
+    }
+
+    qDebug() << "Database reconnected successfully";
+    return true;
+}

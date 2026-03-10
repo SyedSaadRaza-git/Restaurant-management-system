@@ -53,6 +53,13 @@ void tablewindow::on_addButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("INSERT INTO restaurant_tables (table_no) VALUES (:tableNo)");
     query.bindValue(":tableNo", tableNo);
@@ -83,6 +90,13 @@ void tablewindow::on_removeButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("DELETE FROM restaurant_tables WHERE table_no = :tableNo");
     query.bindValue(":tableNo", tableNo);
@@ -106,6 +120,13 @@ void tablewindow::loadTables()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
 
     query.prepare("SELECT table_no FROM restaurant_tables ORDER BY table_no");

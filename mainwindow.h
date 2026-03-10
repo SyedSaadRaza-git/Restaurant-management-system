@@ -24,6 +24,7 @@ public:
 
 private slots:
     void on_loginButton_clicked();
+    void createBackup();
 
 private:
     Ui::MainWindow *ui;

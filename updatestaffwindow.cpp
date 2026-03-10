@@ -42,6 +42,13 @@ void updatestaffwindow::on_updateButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("UPDATE staff SET position = ?, salary = ? WHERE id = ?");
     query.addBindValue(position);

@@ -103,6 +103,14 @@ void takeawaywindow::loadCategoryMenu(const QString &category)
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
+
     QSqlQuery query(db);
     query.prepare("SELECT Name, selling_price, image_path FROM menu WHERE category = :category");
     query.bindValue(":category", category);
@@ -268,6 +276,13 @@ if (!db.isOpen()) {
     return;
 }
 
+//Function for reconnect database
+if(!reconnectDatabase())
+{
+    QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+    return;
+}
+db = QSqlDatabase::database("restaurant_connection");
 // ✅ Step 1: Insert the order into the 'orders' table
 QString waiterName = "John Doe";  // You can change this based on the logged-in user
 double totalOrderPrice = 0.0;
@@ -293,6 +308,13 @@ if (!orderQuery.exec()) {
     return;
 }
 
+//Function for reconnect database
+if(!reconnectDatabase())
+{
+    QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+    return;
+}
+db = QSqlDatabase::database("restaurant_connection");
 // ✅ Step 2: Get the generated order number
 int orderNumber = orderQuery.lastInsertId().toInt();
 
@@ -318,6 +340,13 @@ for (int row = 0; row < ui->tableWidget->rowCount(); ++row) {
     }
 }
 
+//Function for reconnect database
+if(!reconnectDatabase())
+{
+    QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+    return;
+}
+db = QSqlDatabase::database("restaurant_connection");
 QSqlQuery updateQuery(db);
 updateQuery.prepare("UPDATE orders SET is_paid = 1, payment_status = 'Paid' "
                     "WHERE order_no = :order_no");
@@ -349,7 +378,13 @@ void takeawaywindow::populateCategoryButtons()
             QMessageBox::warning(this, "Database Error", "Database is not connected.");
             return;
         }
-
+     //Function for reconnect database
+     if(!reconnectDatabase())
+     {
+       QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+       return;
+     }
+     db = QSqlDatabase::database("restaurant_connection");
         // Clear existing buttons from the layout
         QLayoutItem *item;
         while ((item = ui->LeftLayout->takeAt(0)) != nullptr) {
@@ -416,6 +451,13 @@ void takeawaywindow::printBill(int orderNumber)
     int yPos = 50;
     int pageWidth = printer.pageLayout().paintRectPixels(printer.resolution()).width();
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // ✅ Step 2: Retrieve order details from the 'orders' table
     QSqlQuery orderQuery(db);
     orderQuery.prepare("SELECT  total_price, order_date FROM orders WHERE order_no = :order_no");
@@ -454,6 +496,13 @@ void takeawaywindow::printBill(int orderNumber)
     painter.drawLine(10, yPos, pageWidth - 10, yPos);
     yPos += 20;
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // ✅ Step 5: Retrieve item details from the 'order_items' table
     QSqlQuery itemQuery(db);
     itemQuery.prepare("SELECT item_name, quantity, unit_price, total_price FROM order_items WHERE order_no = :order_no");
@@ -496,7 +545,13 @@ void takeawaywindow::printBill(int orderNumber)
 void takeawaywindow::checkForReadyOrders(){
     if (!db.isOpen())
         return;
-
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("SELECT order_no FROM orders WHERE status='Ready' AND notification_shown = 0");
 
@@ -512,6 +567,13 @@ void takeawaywindow::checkForReadyOrders(){
         QMessageBox::information(this,"Order Ready",
                                  "Order " + orderNo + " is ready!");
 
+        //Function for reconnect database
+        if(!reconnectDatabase())
+        {
+            QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+            return;
+        }
+        db = QSqlDatabase::database("restaurant_connection");
         QSqlQuery updateQuery(db);
         updateQuery.prepare("UPDATE orders SET notification_shown = 1 WHERE order_no = :order_no");
         updateQuery.bindValue(":order_no", orderNo);

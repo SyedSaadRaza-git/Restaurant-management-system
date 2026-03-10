@@ -72,6 +72,13 @@ void showmenuwindow2::on_pushButton_2_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Create the query to fetch all menu details
     QSqlQuery query(db);
     query.prepare("SELECT id, Name,Category, Cost_Price, selling_price FROM menu");
@@ -132,6 +139,13 @@ void showmenuwindow2::on_pushButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QString menuId = ui->lineEdit->text().trimmed();
 
     // Validate input
@@ -139,6 +153,7 @@ void showmenuwindow2::on_pushButton_clicked()
         QMessageBox::warning(this, "Input Error", "Please enter a valid Menu ID.");
         return;
     }
+
 
     // Prepare the SQL query
     QSqlQuery query(db);

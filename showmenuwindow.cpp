@@ -56,6 +56,13 @@ void showmenuwindow::on_pushButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Prepare the SQL query
     QSqlQuery query(db);
     query.prepare("SELECT Name, Category, Cost_Price, selling_price FROM Menu WHERE id = :id");
@@ -137,6 +144,13 @@ void showmenuwindow::on_pushButton_2_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Create the query to fetch all menu details
     QSqlQuery query(db);
     query.prepare("SELECT id, Name,Category, Cost_Price, selling_price FROM menu");

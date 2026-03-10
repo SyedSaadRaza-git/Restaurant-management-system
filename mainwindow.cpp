@@ -1,5 +1,9 @@
 #include "mainwindow.h"
+#include "qdatetime.h"
+#include "qdir.h"
+#include "qtimer.h"
 #include "ui_mainwindow.h"
+#include "QProcess"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -14,10 +18,20 @@ MainWindow::MainWindow(QWidget *parent)
     // for maximized login page
     this->showMaximized();
      setWindowTitle("Login");
+     createBackup();
+
+     QTimer *backupTimer = new QTimer(this);
+
+     connect(backupTimer, &QTimer::timeout,
+             this, &MainWindow::createBackup);
+
+     backupTimer->start(3600000);
+
 }
 
 MainWindow::~MainWindow()
 {
+    createBackup();
     delete ui;
 }
 
@@ -65,3 +79,69 @@ void MainWindow::on_loginButton_clicked()
     }
 }
 
+void MainWindow::createBackup()
+{
+    QString folder = "F:/New folder (2)/Restaurant-Managment-System/backup";
+
+    QDir dir;
+    if(!dir.exists(folder))
+    {
+        dir.mkpath(folder);
+    }
+
+    QString time = QDateTime::currentDateTime().toString("yyyy_MM_dd_hh_mm");
+    QString backupFile = folder + "/backup_" + time + ".sql";
+
+    QString program = "C:/Program Files/MySQL/MySQL Server 9.5/bin/mysqldump.exe";
+
+    QStringList args;
+    args << "--set-gtid-purged=OFF"
+         << "-u" << "root"
+         << "-psaad"
+         << "restaurant_management";
+
+    QProcess process;
+    process.start(program, args);
+
+    if(!process.waitForFinished())
+    {
+        qDebug() << "Backup process failed!";
+        return;
+    }
+
+    QByteArray backupData = process.readAllStandardOutput();
+    QByteArray errorData = process.readAllStandardError();
+
+    if(!errorData.isEmpty())
+    {
+        qDebug() << "Backup error:" << errorData;
+    }
+
+    QFile file(backupFile);
+
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(backupData);
+        file.close();
+        qDebug() << "Backup created:" << backupFile;
+    }
+    else
+    {
+        qDebug() << "File write failed!";
+    }
+
+    // Keep only last 5 backups
+    QDir backupDir(folder);
+
+    QStringList files = backupDir.entryList(QStringList() << "*.sql",
+                                            QDir::Files,
+                                            QDir::Time);
+
+    if(files.size() > 5)
+    {
+        for(int i = 5; i < files.size(); i++)
+        {
+            backupDir.remove(files[i]);
+        }
+    }
+}

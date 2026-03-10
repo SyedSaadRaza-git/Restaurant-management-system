@@ -1,4 +1,5 @@
 #include "addstaffwindow.h"
+#include "databaseconnection.h"
 #include "ui_addstaffwindow.h"
 #include "staffwindow.h"
 #include <QRegularExpression>
@@ -60,6 +61,14 @@ void AddStaffWindow::on_saveButton_clicked()
                              "Invalid phone format.");
         return;
     }
+
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
 
     // Prepare query USING DATABASE
     QSqlQuery query(db);

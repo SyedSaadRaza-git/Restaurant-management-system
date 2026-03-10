@@ -41,6 +41,13 @@ void removemenuwindow::on_removeButton_clicked()
     }
 
     // Prepare the SQL query
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
     query.prepare("DELETE FROM Menu WHERE id = :id");
     query.bindValue(":id", menuId);

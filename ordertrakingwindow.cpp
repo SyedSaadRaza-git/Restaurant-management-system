@@ -41,7 +41,13 @@ void ordertrakingwindow::populateTableWidget()
 {
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
-
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
 
     query.prepare(
@@ -87,6 +93,13 @@ void ordertrakingwindow::populateOrderNumbers()
 {
     ui->comboBox_orderNo->clear();
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
 
     query.prepare(
@@ -124,6 +137,13 @@ void ordertrakingwindow::on_pushButton_clicked()
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Fetch data from the orders table
     QSqlQuery query(db);
     query.prepare("SELECT order_no, total_price, status FROM orders WHERE order_no = :order_no");

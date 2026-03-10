@@ -61,6 +61,13 @@ void addmenuwindow::on_savemenuButton_clicked()
         return;
     }
 
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
+
     // Prepare the SQL query
     QSqlQuery query(db);
     query.prepare("INSERT INTO Menu (Name, Category, Cost_Price, selling_Price, image_path) "

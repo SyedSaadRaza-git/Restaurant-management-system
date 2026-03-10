@@ -61,6 +61,13 @@ void orderdetailwindow::on_showAllButton_clicked()
                                               << "Order Date"
                                               << "Remove");
 
+   //Function for reconnect database
+   if(!reconnectDatabase())
+   {
+       QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+       return;
+   }
+   db = QSqlDatabase::database("restaurant_connection");
    // Prepare the SQL query to fetch data from `orders` and `Menu` tables
    QSqlQuery query(db);
    query.prepare(R"(
@@ -176,6 +183,13 @@ void orderdetailwindow::on_pushButton_clicked()
         return;
     }
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+    db = QSqlDatabase::database("restaurant_connection");
     // Declare and prepare the SQL query
     QSqlQuery query(db);
     query.prepare(R"(
@@ -249,6 +263,12 @@ void orderdetailwindow::on_pushButton_clicked()
 
 void orderdetailwindow::removeOrder(const QString &orderId)
 {
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
     // Prepare the query to delete the order based on the order_id
     QSqlQuery query;
     query.prepare("DELETE FROM orders WHERE order_no = :orderId");
@@ -283,6 +303,13 @@ void orderdetailwindow::showTodayOrders()
                                                << "Profit"
                                                << "Order Date");
 
+    //Function for reconnect database
+    if(!reconnectDatabase())
+    {
+        QMessageBox::critical(this,"Database Error","Cannot connect to database.");
+        return;
+    }
+db = QSqlDatabase::database("restaurant_connection");
     QSqlQuery query(db);
 
     query.prepare(R"(

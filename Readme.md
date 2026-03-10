@@ -41,13 +41,13 @@ Client-Server architecture where multiple client computers connect to a centrali
 ![Login](screenshots/login_page.png)
 
 ### Takeaway Window
-![Takeaway](screenshots/takeaway.png)
+![Takeaway](screenshots/Takeaway.png)
 
 ### Kitchen Panel
 ![Kitchen](screenshots/kitchen.png)
 
 ### Order Tracking
-![Tracking](screenshots/order_tracking.png)
+![Tracking](screenshots/orderTracking.png)
 
 ---
 

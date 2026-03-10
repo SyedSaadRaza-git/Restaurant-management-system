@@ -25,7 +25,7 @@ user4window::user4window(QWidget *parent)
         loadOrders();
         populateTableWidget();
     });
-    timer->start(10000);
+    timer->start(60000);
 
     ui->tableWidget->verticalHeader()->setVisible(false);
     ui->tableWidget->setAlternatingRowColors(true);

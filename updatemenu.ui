@@ -204,8 +204,9 @@
    </property>
    <property name="font">
     <font>
-     <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <family>Arial Rounded MT</family>
+     <pointsize>15</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">

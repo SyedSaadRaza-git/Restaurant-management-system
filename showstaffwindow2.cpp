@@ -77,7 +77,7 @@ void showstaffwindow2::on_searchButton_clicked()
         // Get the data from the query result
         QString name = query.value("Name").toString();
         QString cnic = query.value("Cnic").toString();
-        QString phoneNo = query.value("PhoneNo").toString();
+        QString phoneNo = query.value("Phone_No").toString();
         QString position = query.value("Position").toString();
         QString salary = query.value("Salary").toString();
 

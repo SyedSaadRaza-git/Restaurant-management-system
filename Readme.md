@@ -38,7 +38,7 @@ Client-Server architecture where multiple client computers connect to a centrali
 ## Screenshots
 
 ### Login Page
-![Login](screenshots/login.png)
+![Login](screenshots/login_page.png)
 
 ### Takeaway Window
 ![Takeaway](screenshots/takeaway.png)
